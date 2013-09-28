@@ -87,3 +87,7 @@ CLIs to define its needed properties and several ways to obtaining them:
 
 I find this pattern interesting for lazy people just like me. So let's write
 the glue between them for improved laziness
+
+[1]: https://github.com/substack/node-optimist
+[2]: https://github.com/dominictarr/rc
+[3]: https://github.com/flatiron/prompt
