@@ -78,7 +78,7 @@ npm install clide
 
 # Motivation
 
-I've found myself integrating [optimist][1], [rc][2] and [promp][3] in several
+I've found myself integrating [optimist][1], [rc][2] and [prompt][3] in several
 CLIs to define its needed properties and several ways to obtaining them:
 
 *  defaults through configuration files
