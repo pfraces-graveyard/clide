@@ -31,7 +31,16 @@ greet.js --name world
 
 > Hello world!
 
-Use it with a configuration file
+Use it as is for prompt fallbacks
+
+```sh
+greet.js
+```
+
+> **Name to greet:** pfraces  
+  Hello pfraces!
+
+Use it with a configuration file and by-pass prompts
 
 ```sh
 cat <<EOT
@@ -44,15 +53,6 @@ greet.js
 ```
 
 > Hello shadow!
-
-Use it without anything so prompt fallbacks are requested
-
-```sh
-greet.js
-```
-
-> **Name to greet:** pfraces  
-  Hello pfraces!
 
 Common CLI options defined for free!
 
