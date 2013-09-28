@@ -82,8 +82,8 @@ I've found myself integrating [optimist][1], [rc][2] and [prompt][3] in several
 CLIs to define its needed properties and several ways to obtaining them:
 
 *  defaults through configuration files
-*  override defaults through the command line
-*  prompt fallbacks
+*  override defaults through command line params
+*  fallback to prompts
 
 I find this pattern interesting for lazy people just like me. So let's write
 the glue between them for improved laziness
