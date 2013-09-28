@@ -9,7 +9,7 @@ Define your interface
 **greet.js**
 
 ```js
-#!/usr/bin/ env node
+#!/usr/bin/env node
 
 var clide = require('clide');
 
@@ -53,6 +53,22 @@ greet.js
 
 > **Name to greet:** pfraces  
   Hello pfraces!
+
+Common CLI options defined for free!
+
+Obtain `package.json` version
+
+```sh
+greet.js --version
+```
+
+> 0.1.0
+
+Use specific config file
+
+```sh
+greet.js --config /path/to/config
+```
 
 # Installation
 
