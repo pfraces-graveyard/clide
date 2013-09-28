@@ -85,8 +85,8 @@ CLIs to define its needed properties and several ways to obtaining them:
 *  override defaults through command line params
 *  fallback to prompts
 
-I find this pattern interesting for lazy people just like me. So let's write
-the glue between them for improved laziness
+I find this pattern so useful for quick start with your CLI minimals, so let's
+write the glue between them for improved laziness
 
 [1]: https://github.com/substack/node-optimist
 [2]: https://github.com/dominictarr/rc
