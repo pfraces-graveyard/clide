@@ -54,7 +54,7 @@ greet.js
 
 > Hello shadow!
 
-Common CLI options defined for free!
+Common CLI options added for free!
 
 Obtain `package.json` version
 
