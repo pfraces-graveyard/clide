@@ -9,7 +9,8 @@ var clide = function (def, callback) {
         config = rc(package.name);
 
     // override defaults through command line params
-    parseDefinition(def, cliCommons(package.version));
+    var usage = optimist.usage(def.syntax)
+    parseDefinition(def, cliCommons(package.version, usage));
 
     // fallback to prompts
     promptFallbacks(config, Object.keys(def.options), callback);
@@ -43,9 +44,8 @@ var parseDefinition = function (clide, optimist) {
  * * help
  * * version
  */
-var cliCommons = function (version) {
-    var opts = optimist
-        .usage(def.syntax)
+var cliCommons = function (version, usage) {
+    var opts = usage
         .option('h', {
             alias: 'help',
             describe: 'Show this help'

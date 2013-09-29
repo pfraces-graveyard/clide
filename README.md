@@ -43,11 +43,11 @@ greet.js
 Use it with a configuration file and by-pass prompts
 
 ```sh
-cat <<EOT
+cat > ~/.greetrc <<EOT
 {
     "name": "shadow"
 }
-EOT > ~/.cliderc
+EOT
 
 greet.js
 ```
