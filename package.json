@@ -1,0 +1,23 @@
+{
+    "name": "clide",
+    "version": "0.1.0",
+    "description": "CLI definitions",
+    "main": "clide.js",
+    "dependencies": {
+        "optimist": "*",
+        "rc": "*",
+        "prompt": "*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://pfraces@github.com/pfraces/clide"
+    },
+    "keywords": [
+        "cli"
+    ],
+    "author": "pfraces",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/pfraces/clide/issues"
+    }
+}

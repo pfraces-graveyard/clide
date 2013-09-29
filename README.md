@@ -13,14 +13,14 @@ Define your interface
 
 var clide = require('clide');
 
-var def = clide({
+clide({
     syntax: 'greet [OPTIONS]',
-    options: [
+    options: {
         'name': 'Name to greet'
-    ]
+    }
+}, function (err, def) {
+    console.log('Hello' + def.name + '!');
 });
-
-console.log('Hello' + def.name + '!');
 ```
 
 Use it with command line params
@@ -82,7 +82,7 @@ I've found myself integrating [optimist][1], [rc][2] and [prompt][3] in my
 CLI scripts to define its needed properties and several ways to obtaining them
 
 *  defaults through configuration files
-*  override defaults through command line params
+*  override defaults with command line params
 *  fallback to prompts
 
 I find this pattern so useful for quick start with your CLI minimals, so let's
