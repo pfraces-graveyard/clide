@@ -7,14 +7,20 @@ var optimist = require('optimist'),
 var clide = function (definition, callback) {
     var package = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
 
-    // get defaults from configuration file
-    var config = rc(package.name);
-
     // add builtin options to the definition
     var builtin = builtinOptions(optimist),
         options = definitionOptions(definition, builtin);
 
-    builtinBehaviors(options, package.version);
+    var configFile = builtinBehaviors(options, package.version);
+
+    // get defaults from configuration file
+    var config;
+
+    if (configFile) {
+        config = JSON.parse(fs.readFileSync(configFile));
+    } else {
+        config = rc(package.name);
+    }
 
     // override defaults with command line params
     merge(config, options.argv);
@@ -60,6 +66,10 @@ var builtinOptions = function (options) {
         .option('v', {
             alias: 'version',
             describe: 'Show version'
+        })
+        .option('c', {
+            alias: 'config',
+            describe: 'Config file to use'
         });
 };
 
@@ -79,6 +89,10 @@ var builtinBehaviors = function (options, version) {
     if (argv.version) {
         console.log(version);
         process.exit();
+    }
+
+    if (argv.config) {
+        return argv.config;
     }
 };
 

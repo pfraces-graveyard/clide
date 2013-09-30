@@ -44,11 +44,11 @@ greet.js
 
 > Hello shadow!
 
-## Use it without params nor configuration for prompt fallbacks
+## Prompt fallbacks
+
+No config nor params provided? Prompts to the rescue!
 
 ```sh
-# remember to remove configuration if any
-
 greet.js
 ```
 
@@ -75,7 +75,11 @@ Use specific config file
 
 ```sh
 greet.js --config /path/to/config
+
+greet.js --config <( echo '{ "name": "inlined!" }' )
 ```
+
+> Hello inlined!!
 
 # Installation
 
