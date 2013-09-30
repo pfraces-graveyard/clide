@@ -10,24 +10,25 @@ var clide = function (definition, callback) {
     // get defaults from configuration file
     var config = rc(package.name);
 
-    // add default options to the definition
-    var options = defaultOptions(optimist);
-    options = parseDefinition(definition, options);
-    defaultBehaviors(options, package.version);
+    // add builtin options to the definition
+    var builtin = builtinOptions(optimist),
+        options = definitionOptions(definition, builtin);
+
+    builtinBehaviors(options, package.version);
 
     // override defaults with command line params
     merge(config, options.argv);
 
     // fallback to prompts
-    promptFallbacks(config, Object.keys(definition), callback);
+    promptFallbacks(config, definition, callback);
 };
 
 /**
- * parseDefinition
+ * definitionOptions
  *
  * Return an optimist object with the user options
  */
-var parseDefinition = function (definition, options) {
+var definitionOptions = function (definition, options) {
     for (var key in definition) {
         if (definition.hasOwnProperty(key)) {
             options = options
@@ -42,14 +43,14 @@ var parseDefinition = function (definition, options) {
 };
 
 /**
- * defaultOptions
+ * builtinOptions
  *
  * Common CLI options:
  *
  * * help
  * * version
  */
-var defaultOptions = function (options) {
+var builtinOptions = function (options) {
     return options
         .usage('$0 [OPTIONS]')
         .option('h', {
@@ -67,7 +68,7 @@ var defaultOptions = function (options) {
  *
  * What to do when a common option is used
  */
-var defaultBehaviors = function (options, version) {
+var builtinBehaviors = function (options, version) {
     var argv = options.argv;
 
     if (argv.help) {
@@ -86,14 +87,24 @@ var defaultBehaviors = function (options, version) {
  *
  * Prompt for required but not passed params
  */
-var promptFallbacks = function (override, prompts, callback) {
+var promptFallbacks = function (override, definition, callback) {
+    var schema = { properties: {} };
+
+    for (var key in definition) {
+        if (definition.hasOwnProperty(key)) {
+            schema.properties[key] = {
+                description: definition[key] + ':'
+            };
+        }
+    }
+    
     prompt.message = '';
     prompt.delimiter = '';
 
     prompt.override = override;
     prompt.start();
 
-    prompt.get(prompts, callback);
+    prompt.get(schema, callback);
 };
 
 module.exports = clide;
