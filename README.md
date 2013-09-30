@@ -14,12 +14,9 @@ Define your interface
 var clide = require('clide');
 
 clide({
-    syntax: 'greet [OPTIONS]',
-    options: {
-        'name': 'Name to greet'
-    }
-}, function (err, def) {
-    console.log('Hello' + def.name + '!');
+    'name': 'Name to greet'
+}, function (err, props) {
+    console.log('Hello' + props.name + '!');
 });
 ```
 
@@ -31,30 +28,40 @@ greet.js --name world
 
 > Hello world!
 
-Use it as is for prompt fallbacks
+Use it with a configuration file and by-pass prompts
+
+**~/.greetrc**
+
+```json
+{
+    "name": "shadow"
+}
+```
 
 ```sh
+greet.js
+```
+
+> Hello shadow!
+
+Use it without params nor configuration for prompt fallbacks
+
+```sh
+# remember to remove configuration if any
+
 greet.js
 ```
 
 > **Name to greet:** pfraces  
   Hello pfraces!
 
-Use it with a configuration file and by-pass prompts
+Common CLI options added for free!
+
+Get help
 
 ```sh
-cat > ~/.greetrc <<EOT
-{
-    "name": "shadow"
-}
-EOT
-
-greet.js
+greet.js --help
 ```
-
-> Hello shadow!
-
-Common CLI options added for free!
 
 Obtain `package.json` version
 
@@ -81,7 +88,7 @@ npm install clide
 I've found myself integrating [optimist][1], [rc][2] and [prompt][3] in my
 CLI scripts to define its needed properties and several ways to obtaining them
 
-*  defaults through configuration files
+*  defaults from configuration files
 *  override defaults with command line params
 *  fallback to prompts
 

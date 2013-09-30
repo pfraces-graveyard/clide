@@ -1,51 +1,57 @@
 var optimist = require('optimist'),
     rc = require('rc'),
     prompt = require('prompt'),
+    merge = require('lodash.merge'),
     fs = require('fs');
 
-var clide = function (def, callback) {
-    // defaults through configuration files
-    var package = JSON.parse(fs.readFileSync(__dirname + '/package.json')),
-        config = rc(package.name);
+var clide = function (definition, callback) {
+    var package = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
 
-    // override defaults through command line params
-    var usage = optimist.usage(def.syntax)
-    parseDefinition(def, cliCommons(package.version, usage));
+    // get defaults from configuration file
+    var config = rc(package.name);
+
+    // add default options to the definition
+    var options = defaultOptions(optimist);
+    options = parseDefinition(definition, options);
+    defaultBehaviors(options, package.version);
+
+    // override defaults with command line params
+    merge(config, options.argv);
 
     // fallback to prompts
-    promptFallbacks(config, Object.keys(def.options), callback);
+    promptFallbacks(config, Object.keys(definition), callback);
 };
 
 /**
  * parseDefinition
  *
- * Augments the optimist definition from the clide definition
+ * Return an optimist object with the user options
  */
-var parseDefinition = function (clide, optimist) {
-    var options = clide.options;
-    optimist = optimist.usage(clide.syntax);
-
-    for (var key in options) {
-        if (options.hasOwnProperty(key)) {
-            optimist = optimist
+var parseDefinition = function (definition, options) {
+    for (var key in definition) {
+        if (definition.hasOwnProperty(key)) {
+            options = options
                 .option(key[0], {
                     alias: key,
-                    describe: options[key]
+                    describe: definition[key]
                 });
         }
     }
+
+    return options;
 };
 
 /**
- * cliCommons
+ * defaultOptions
  *
  * Common CLI options:
  *
  * * help
  * * version
  */
-var cliCommons = function (version, usage) {
-    var opts = usage
+var defaultOptions = function (options) {
+    return options
+        .usage('$0 [OPTIONS]')
         .option('h', {
             alias: 'help',
             describe: 'Show this help'
@@ -54,18 +60,25 @@ var cliCommons = function (version, usage) {
             alias: 'version',
             describe: 'Show version'
         });
+};
 
-    var args = opts.argv;
+/**
+ * defaultBehaivors
+ *
+ * What to do when a common option is used
+ */
+var defaultBehaviors = function (options, version) {
+    var argv = options.argv;
 
-    if (args.version) {
+    if (argv.help) {
+        options.showHelp();
+        process.exit();
+    }
+
+    if (argv.version) {
         console.log(version);
+        process.exit();
     }
-
-    if (args.help) {
-        console.log(opts.showHelp());
-    }
-
-    return opts;
 };
 
 /**

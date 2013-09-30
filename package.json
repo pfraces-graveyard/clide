@@ -6,7 +6,8 @@
     "dependencies": {
         "optimist": "*",
         "rc": "*",
-        "prompt": "*"
+        "prompt": "*",
+        "lodash.merge": "*"
     },
     "repository": {
         "type": "git",
