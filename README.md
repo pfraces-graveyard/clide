@@ -4,7 +4,7 @@ CLI definitions
 
 # Usage
 
-Define your interface
+## Define your interface
 
 **greet.js**
 
@@ -20,7 +20,7 @@ clide({
 });
 ```
 
-Use it with command line params
+## Use it with command line params
 
 ```sh
 greet.js --name world
@@ -28,7 +28,7 @@ greet.js --name world
 
 > Hello world!
 
-Use it with a configuration file
+## Use it with a configuration file
 
 **~/.greetrc**
 
@@ -44,7 +44,7 @@ greet.js
 
 > Hello shadow!
 
-Use it without params nor configuration for prompt fallbacks
+## Use it without params nor configuration for prompt fallbacks
 
 ```sh
 # remember to remove configuration if any
