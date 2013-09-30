@@ -28,7 +28,7 @@ greet.js --name world
 
 > Hello world!
 
-Use it with a configuration file and by-pass prompts
+Use it with a configuration file
 
 **~/.greetrc**
 
@@ -55,7 +55,7 @@ greet.js
 > **Name to greet:** pfraces  
   Hello pfraces!
 
-Common CLI options added for free!
+## Common CLI options added for free!
 
 Get help
 
@@ -63,7 +63,7 @@ Get help
 greet.js --help
 ```
 
-Obtain `package.json` version
+Get version from `package.json`
 
 ```sh
 greet.js --version
@@ -85,12 +85,12 @@ npm install clide
 
 # Motivation
 
-I've found myself integrating [optimist][1], [rc][2] and [prompt][3] in my
-CLI scripts to define its needed properties and several ways to obtaining them
+I used to integrate [optimist][1], [rc][2] and [prompt][3] in my CLI scripts to
+define its required properties and several ways to get their values
 
-*  defaults from configuration files
-*  override defaults with command line params
-*  fallback to prompts
+1. defaults from configuration files
+2. override defaults with command line params
+3. fallback to prompts
 
 I find this pattern so useful for quick start with your CLI minimals, so let's
 write the glue between them for improved laziness
