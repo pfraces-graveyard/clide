@@ -12,34 +12,9 @@ CLI definitions
 var clide = require('clide');
 
 clide({
-    user: 'User name',
-    pass: {
-        description: 'Password',
-        hidden: true
-    }
+    user: 'Name to greet'
 }, function (props) {
-
-    // Do whatever with your defined props.
-    // No checks for null or undefined are needed.
-
-    if (props.pass !== 'foo') {
-        console.log('not authorized');
-    } else {
-        console.log('Hello ' + props.user + '!');
-    }
-
-    // check for optional (not defined) ones
-
-    if (props.time) {
-        console.log(new Date());
-    }
-}, function (err) {
-
-    // Define your error handling here.
-    // This fallback function is optional.
-    // If not provided, the possible errors will cause an exception.
-
-    console.log(err);
+    console.log('Hello ' + props.user + '!');
 });
 ```
 
@@ -103,6 +78,45 @@ greet.js --config <( echo '{ "name": "inlined!" }' )
 ```
 
 > Hello inlined!!
+
+## More customized example
+
+**password.js**
+
+```js
+var clide = require('clide');
+
+clide({
+    user: 'User name',
+    pass: {
+        description: 'Password',
+        hidden: true
+    }
+}, function (props) {
+
+    // Do whatever with your defined props.
+    // No checks for null or undefined are needed.
+
+    if (props.pass !== 'foo') {
+        console.log('not authorized');
+    } else {
+        console.log('Hello ' + props.user + '!');
+    }
+
+    // check for optional (not defined) ones
+
+    if (props.time) {
+        console.log(new Date());
+    }
+}, function (err) {
+
+    // Define your error handling here.
+    // This fallback function is optional.
+    // If not provided, the possible errors will cause an exception.
+
+    console.log(err);
+});
+```
 
 # Installation
 
