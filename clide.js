@@ -4,11 +4,11 @@ var optimist = require('optimist'),
     merge = require('lodash.merge'),
     fs = require('fs');
 
-var clide = function (definition, callback) {
+var clide = function (definition, callback, fallback) {
     var package = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
 
     // add builtin options to the definition
-    var builtin = builtinOptions(optimist),
+    var builtin = builtinOptions(),
         options = definitionOptions(definition, builtin);
 
     var configFile = builtinBehaviors(options, package.version);
@@ -26,7 +26,7 @@ var clide = function (definition, callback) {
     merge(config, options.argv);
 
     // fallback to prompts
-    promptFallbacks(config, definition, callback);
+    promptFallbacks(config, definition, callback, fallback);
 };
 
 /**
@@ -56,8 +56,8 @@ var definitionOptions = function (definition, options) {
  * * help
  * * version
  */
-var builtinOptions = function (options) {
-    return options
+var builtinOptions = function () {
+    return optimist
         .usage('$0 [OPTIONS]')
         .option('h', {
             alias: 'help',
@@ -101,14 +101,23 @@ var builtinBehaviors = function (options, version) {
  *
  * Prompt for required but not passed params
  */
-var promptFallbacks = function (override, definition, callback) {
+var promptFallbacks = function (override, definition, callback, fallback) {
+    var K_PROMPT = ':';
+
     var schema = { properties: {} };
+
+    var errorHandler = fallback || function (err) {
+        throw new Error(err);
+    };
 
     for (var key in definition) {
         if (definition.hasOwnProperty(key)) {
-            schema.properties[key] = {
-                description: definition[key] + ':'
-            };
+            var prop = typeof definition[key] === 'object'
+                ? definition[key]
+                : { description: definition[key] };
+
+            prop.description += K_PROMPT;
+            schema.properties[key] = prop;
         }
     }
     
@@ -118,7 +127,13 @@ var promptFallbacks = function (override, definition, callback) {
     prompt.override = override;
     prompt.start();
 
-    prompt.get(schema, callback);
+    prompt.get(schema, function (err, props) {
+        if (err) {
+            errorHandler(err);
+        }
+
+        callback(merge(override, props));
+    });
 };
 
 module.exports = clide;

@@ -9,21 +9,44 @@ CLI definitions
 **greet.js**
 
 ```js
-#!/usr/bin/env node
-
 var clide = require('clide');
 
 clide({
-    'name': 'Name to greet'
-}, function (err, props) {
-    console.log('Hello' + props.name + '!');
+    user: 'User name',
+    pass: {
+        description: 'Password',
+        hidden: true
+    }
+}, function (props) {
+
+    // Do whatever with your defined props.
+    // No checks for null or undefined are needed.
+
+    if (props.pass !== 'foo') {
+        console.log('not authorized');
+    } else {
+        console.log('Hello ' + props.user + '!');
+    }
+
+    // check for optional (not defined) ones
+
+    if (props.time) {
+        console.log(new Date());
+    }
+}, function (err) {
+
+    // Define your error handling here.
+    // This fallback function is optional.
+    // If not provided, the possible errors will cause an exception.
+
+    console.log(err);
 });
 ```
 
 ## Use it with command line params
 
 ```sh
-greet.js --name world
+node greet.js --name world
 ```
 
 > Hello world!
